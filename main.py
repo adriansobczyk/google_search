@@ -106,31 +106,29 @@ def save_results(results, file_name):
     results.to_excel(os.path.join(output_folder, file_name), index=False)
 
 
-# UCOMMENT THIS FUNCTION TO RUN IT WITHOUT GUI
+def main():
+    # Start the browser
+    browser = start_browser()
 
-# def main():
-#     # Start the browser
-#     browser = start_browser()
-#
-#     # Read the keywords and URLs
-#     urls, keywords, pages = read_keywords_and_urls("links.xlsx")
-#
-#     # Search for the keywords and get the results
-#     results = search_keywords(browser, urls, keywords, pages)
-#
-#     # Get date and time
-#     now = datetime.now()
-#
-#     # Create filename
-#     file_name = "results_" + now.strftime("%Y_%m_%d_%H-%M-%S") + ".xlsx"
-#
-#     # Save the results
-#     save_results(results, file_name)
-#     print(results)
-#
-#     # Close the browser
-#     close_browser(browser)
-#
-#
-# if __name__ == "__main__":
-#     main()
+    # Read the keywords and URLs
+    urls, keywords, pages = read_keywords_and_urls("links.xlsx")
+
+    # Search for the keywords and get the results
+    results = search_keywords(browser, urls, keywords, pages)
+
+    # Get date and time
+    now = datetime.now()
+
+    # Create filename
+    file_name = "results_" + now.strftime("%Y_%m_%d_%H-%M-%S") + ".xlsx"
+
+    # Save the results
+    save_results(results, file_name)
+    print(results)
+
+    # Close the browser
+    close_browser(browser)
+
+
+if __name__ == "__main__":
+    main()
