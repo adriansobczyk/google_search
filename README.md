@@ -43,7 +43,7 @@ The second way is to run an app with GUI. To do that follow steps below:
 3. Add a filename. No need to add file extension. Program will create *.xlsx* file automatically.
 4. Click on *Start Search* button.
 
-####Approach 3
+#### Approach 3
 
 To run program this way just double click in interface.exe that is placed in exe/dist and follow steps from __Approach 2__.
 
