@@ -41,11 +41,11 @@ The second way is to run an app with GUI. To do that follow steps below:
 1. Run interface.py.
 2. Select Excel file. Make sure that it contains 3 columns: *Link*, *Keyword*, *Page*.
 3. Add a filename. No need to add file extension. Program will create *.xlsx* file automatically.
-4. Click on *Start Search* button.
+4. Click on *Run Script* button.
 
 #### Approach 3
 
-To run program this way just double click in interface.exe that is placed in exe/dist and follow steps from __Approach 2__.
+To run program this way just go to exe/dist and follow steps from __Approach 2__.
 
 
 ## Authors
