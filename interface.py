@@ -31,7 +31,7 @@ class GoogleSearch:
 
 
         # Add a button to start the search
-        tk.Button(self.window, text="Start Search", padx=25, pady=5, command=self.start).grid(row=2, column=0,
+        tk.Button(self.window, text="Run script", padx=25, pady=5, command=self.start).grid(row=2, column=0,
                                                                                               columnspan=3, pady=20)
 
     def start(self):

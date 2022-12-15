@@ -8,11 +8,22 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 from datetime import datetime
 import os
+import json
+
+
+def read_selectors(file_name):
+    # Read the JSON file
+    with open(file_name, "r") as f:
+        selectors = json.load(f)
+    return selectors
 
 
 def search_keywords(browser, urls, keywords, pages):
     # Create a new dataframe to store the results
     results = pd.DataFrame(columns=["Link", "Title", "Keyword"])
+
+    # Use the function to read the selectors from the JSON file
+    selectors = read_selectors("selectors.json")
 
     # Iterate through the keywords and URLs
     for url, keyword, page in zip(urls, keywords, pages):
@@ -22,7 +33,7 @@ def search_keywords(browser, urls, keywords, pages):
         time.sleep(2)
         # Find the consent button and click on it
         try:
-            consent_button = browser.find_element(By.ID, "L2AGLb")
+            consent_button = browser.find_element(By.ID, selectors["consent_button"])
             if consent_button.is_displayed():
                 # Consent button is visible, so click on it
                 consent_button.click()
@@ -31,7 +42,7 @@ def search_keywords(browser, urls, keywords, pages):
             pass
 
         # Find the search input box and enter the keyword
-        search_input = browser.find_element("name", "q")
+        search_input = browser.find_element("name", selectors["search_input"])
         search_input.send_keys(keyword)
 
         # Submit the search form
@@ -44,7 +55,7 @@ def search_keywords(browser, urls, keywords, pages):
         # Iterate through the pages of search results
         for _ in range(page):
             # Find the "Next" button and click on it
-            next_button = browser.find_element(By.ID, "pnnext")
+            next_button = browser.find_element(By.ID, selectors["next_button"])
             next_button.click()
 
             # Wait for the results to load
@@ -52,12 +63,12 @@ def search_keywords(browser, urls, keywords, pages):
             time.sleep(1)
 
         # Find all the result elements on the page
-        result_elements = browser.find_elements(By.CSS_SELECTOR, ".yuRUbf")
+        result_elements = browser.find_elements(By.CSS_SELECTOR, selectors["result_elements"])
 
         # Extract the text from each result element and add it to the dataframe
         for result in result_elements:
-            title = result.find_element(By.CSS_SELECTOR, "h3.DKV0Md").text
-            link = result.find_element(By.CSS_SELECTOR, "a").get_attribute('href')
+            title = result.find_element(By.CSS_SELECTOR, selectors["title_selector"]).text
+            link = result.find_element(By.CSS_SELECTOR, selectors["link_selector"]).get_attribute('href')
             link = link.format(link)
             data = {"Keyword": keyword, "Title": title, "Link": link}
             temp_df = pd.DataFrame(data, index=range(len(data)))
@@ -100,9 +111,9 @@ def save_results(results, file_name):
         os.mkdir(output_folder)
 
     # Get current date and time and format it as a string
-    curent_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     # Save the results dataframe to an Excel file in the output folder
-    file_name = file_name + "_" + curent_datetime + ".xlsx"
+    file_name = file_name + "_" + current_datetime + ".xlsx"
     results.to_excel(os.path.join(output_folder, file_name), index=False)
 
 
